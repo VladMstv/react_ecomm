@@ -4,6 +4,17 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   important: true,
   theme: {
+    screens: {
+      print: { 'raw': 'print' },
+      sm: '600px',
+      md: '960px',
+      lg: '1280px',
+      xl: '1440px',
+      'lt-sm': { max: '559px' },
+      'lt-md': { max: '959px' },
+      'lt-lg': { max: '1279px' },
+      'lt-xl': { max: '1339px' },
+    },
     extend: {
       colors: {
         primary: {
@@ -63,6 +74,14 @@ module.exports = {
         '1/4': '25%',
         '2/4': '50%',
         '3/4': '75%',
+        '10-perc': '10%',
+        '20-perc': '20%',
+        '30-perc': '30%',
+        '40-perc': '40%',
+        '60-perc': '60%',
+        '70-perc': '70%',
+        '80-perc': '80%',
+        '90-perc': '90%',
 
         // Bigger values
         '100': '25rem',
@@ -108,7 +127,9 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: { padding: ['responsive'], backgroundOpacity: ['hover'] },
+
   },
   plugins: [],
+  safelist: process.env.NODE_ENV === "development" ? [{ pattern: /.*/ }] : []
 };
