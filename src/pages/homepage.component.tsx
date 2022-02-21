@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function HomePage(): JSX.Element {
 	return (
-		<div className='homepage p-10'>
+		<div className='homepage'>
 			<Directory />
 		</div>
 	)
