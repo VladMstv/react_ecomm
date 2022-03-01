@@ -22,8 +22,8 @@ export default class Directory extends React.Component<
 		const { sections } = this.state
 		return (
 			<div className='directory-menu flex flex-wrap space-between w-full'>
-				{sections.map(({ id, ...otherProps }) => (
-					<MenuItem key={id} {...otherProps} />
+				{sections.map(({ id, title, imageUrl, linkUrl }) => (
+					<MenuItem key={id} title={title} imageUrl={imageUrl} linkUrl={linkUrl} />
 				))}
 			</div>
 		)

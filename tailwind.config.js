@@ -127,9 +127,9 @@ module.exports = {
     },
   },
   variants: {
-    extend: { padding: ['responsive'], backgroundOpacity: ['hover'] },
+    extend: { padding: ['responsive'], backgroundOpacity: ['hover'], top: ['focus', 'peer-focus'] },
 
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
   safelist: process.env.NODE_ENV === "development" ? [{ pattern: /.*/ }] : []
 };
