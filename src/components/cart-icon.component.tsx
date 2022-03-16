@@ -1,13 +1,20 @@
 import { ReactComponent as ShoppingIcon } from 'assets/shopping-bag.svg'
 import React from 'react'
-import { connect, MapDispatchToProps } from 'react-redux'
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import { toggleCartHidden } from 'redux/cart/cart.actions'
+import { selectCartItemsCount } from 'redux/cart/cart.selectors'
+import { RootState } from 'redux/store'
+import { createStructuredSelector } from 'reselect'
 
 interface CartIconDispatchProps {
 	toggleCartHiddenFn: typeof toggleCartHidden
 }
 
-type CartIconProps = CartIconDispatchProps
+interface CartIconStateProps {
+	itemCount: number
+}
+
+type CartIconProps = CartIconDispatchProps & CartIconStateProps
 
 const mapDispatchToProps: MapDispatchToProps<
 	CartIconDispatchProps,
@@ -17,7 +24,7 @@ const mapDispatchToProps: MapDispatchToProps<
 })
 
 function CartIcon(props: CartIconProps): JSX.Element {
-	const { toggleCartHiddenFn } = props
+	const { toggleCartHiddenFn, itemCount } = props
 	return (
 		<button
 			type='button'
@@ -26,10 +33,16 @@ function CartIcon(props: CartIconProps): JSX.Element {
 		>
 			<ShoppingIcon className='shopping-icon w-6 h-6' />
 			<span className='item-count absolute text-sm font-semibold bottom-0.5'>
-				0
+				{itemCount}
 			</span>
 		</button>
 	)
 }
 
-export default connect(null, mapDispatchToProps)(CartIcon)
+const mapStateToProps: MapStateToProps<
+	CartIconStateProps,
+	Record<string, never>,
+	RootState
+> = createStructuredSelector({ itemCount: selectCartItemsCount })
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartIcon)

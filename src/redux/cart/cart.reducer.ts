@@ -1,12 +1,16 @@
+import { CartItem } from 'models/cart-item.model'
 import { Reducer } from 'redux'
 import { CartAction } from './cart.actions'
+import CartUtils from './cart.util'
 
 export interface CartState {
 	hidden: boolean
+	cartItems: CartItem[]
 }
 
 const INITIAL_STATE: CartState = {
 	hidden: true,
+	cartItems: [],
 }
 
 const cartReducer: Reducer<CartState, CartAction> = (
@@ -18,6 +22,12 @@ const cartReducer: Reducer<CartState, CartAction> = (
 			return {
 				...state,
 				hidden: !state.hidden,
+			}
+		}
+		case 'ADD_ITEM': {
+			return {
+				...state,
+				cartItems: CartUtils.AddItemToCart(state.cartItems, action.payload!),
 			}
 		}
 		default:

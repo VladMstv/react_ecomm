@@ -1,5 +1,5 @@
 import React from 'react'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 interface MenuItemProps {
 	title: string
@@ -7,15 +7,17 @@ interface MenuItemProps {
 	linkUrl: string
 }
 
-function MenuItem(props: MenuItemProps & RouteComponentProps): JSX.Element {
-	const { title, imageUrl, linkUrl, history, match } = props
+function MenuItem(props: MenuItemProps): JSX.Element {
+	const { title, imageUrl, linkUrl } = props
+
+	const navigate = useNavigate()
 	return (
 		<button
 			type='button'
 			className='group menu-item min-w-30-perc flex-auto h-60 flex justify-center 
                 cursor-pointer items-center border mt-0 mr-3 mb-7 first:mr-3 relative overflow-hidden'
 			// open concrete section
-			onClick={() => history.push(`${match.url}${linkUrl}`)}
+			onClick={() => navigate(linkUrl)}
 		>
 			<div
 				className='w-full h-full bg-center bg-cover absolute group-hover:scale-110 transition-transform duration-700'
@@ -31,4 +33,4 @@ function MenuItem(props: MenuItemProps & RouteComponentProps): JSX.Element {
 	)
 }
 
-export default withRouter(MenuItem)
+export default MenuItem

@@ -3,6 +3,7 @@ import { connect, MapStateToProps } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { RootState } from 'redux/store'
 import { UserState } from 'redux/user/user.reducer'
+import { selectCurrentUser } from 'redux/user/user.selectors'
 import { ReactComponent as Logo } from '../assets/crown.svg'
 import CartDropdown from './cart-dropdown.component'
 import CartIcon from './cart-icon.component'
@@ -17,6 +18,7 @@ type Props = HeaderProps & StateProps
 
 function Header({ currentUser, handleSignOut }: Props): JSX.Element {
 	const optionLinksClassess = 'font-semibold hover:opacity-70'
+	console.log('Render header')
 	return (
 		<div className='header mb-5 flex justify-between items-center relative'>
 			<Link className='logo-container h-full w-20 p-5' to='/'>
@@ -52,7 +54,7 @@ const mapStateToProps: MapStateToProps<UserState, HeaderProps, RootState> = (
 	ownProps
 ) => ({
 	...ownProps,
-	currentUser: state.user.currentUser,
+	currentUser: selectCurrentUser(state),
 })
 
 export default connect(mapStateToProps)(Header)

@@ -8,10 +8,12 @@ import ShopPage from 'pages/shop.component'
 import SignInUpPage from 'pages/sign-in-up.component'
 import React from 'react'
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { RootState } from 'redux/store'
 import { setUser } from 'redux/user/user.actions'
 import { UserState } from 'redux/user/user.reducer'
+import { selectCurrentUser } from 'redux/user/user.selectors'
+import { createStructuredSelector } from 'reselect'
 import FirebaseUtil from 'utils/firebase.util'
 import './styles.css'
 
@@ -29,7 +31,7 @@ const mapStateToProps: MapStateToProps<
 	StateProps,
 	Record<string, never>,
 	RootState
-> = state => ({ currentUser: state.user.currentUser })
+> = createStructuredSelector({ currentUser: selectCurrentUser })
 
 const mapDispatchProps: MapDispatchToProps<
 	DispatchProps,
@@ -71,15 +73,13 @@ class App extends React.Component<Props> {
 		return (
 			<div>
 				<Header handleSignOut={() => FirebaseUtil.SignOut()} />
-				<Switch>
-					<Route exact path='/' component={HomePage} />
-					<Route path='/shop' component={ShopPage} />
-					<Route
-						exact
-						path='/sign-in'
-						render={() => (currentUser ? <Redirect to='/' /> : <SignInUpPage />)}
-					/>
-				</Switch>
+				<Routes>
+					<Route path='/' element={<HomePage />} />
+					<Route path='shop/*' element={<ShopPage />} />
+					<Route path='sign-in'>
+						{() => (currentUser ? <Navigate to='/' /> : <SignInUpPage />)}
+					</Route>
+				</Routes>
 			</div>
 		)
 	}
