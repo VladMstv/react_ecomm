@@ -1,4 +1,4 @@
-import PreviewCollection from 'components/preview-collection.component'
+import PreviewCollection from 'components/shop/preview-collection.component'
 import ShopDataSection from 'models/shop-data-section.model'
 import React from 'react'
 import SHOP_DATA from 'shop.data'

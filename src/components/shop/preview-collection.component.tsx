@@ -1,5 +1,5 @@
 import ShopDataSection from 'models/shop-data-section.model'
-import React from 'react'
+import React, { useMemo } from 'react'
 import CollectionItem from './collection-item.component'
 
 type PreviewCollectionProps = {
@@ -11,9 +11,10 @@ type PreviewCollectionProps = {
 
 function PreviewCollection(props: PreviewCollectionProps): JSX.Element {
 	const { title, items } = props
+	const titleUpper = useMemo(() => title.toUpperCase(), [title])
 	return (
 		<div className='collection-preview mb-5'>
-			<h1 className='text-3xl font-semibold mb-5'>{title.toUpperCase()}</h1>
+			<h1 className='text-3xl font-semibold mb-5'>{titleUpper}</h1>
 			<div className='preview flex gap-5 justify-between flex-wrap'>
 				{items
 					.filter((_, idx) => idx < 4)

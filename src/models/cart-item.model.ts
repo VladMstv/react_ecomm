@@ -1,6 +1,6 @@
-import ShopDataItem from './shop-data-item.model';
+import Product from './product.model';
 
 export interface CartItem {
-	item: ShopDataItem
+	product: Product
 	quantity: number
 }

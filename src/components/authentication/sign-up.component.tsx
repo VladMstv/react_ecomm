@@ -1,7 +1,7 @@
 import React, { FormEvent } from 'react'
-import FirebaseUtil from 'utils/firebase.util'
-import CustomButton from './custom-button.component'
-import FormInput from './form-input.component'
+import { createUserWithEmailPassword } from 'utils/firebase/firebase.util'
+import CustomButton from '../shared/custom-button.component'
+import FormInput from '../shared/form-input.component'
 
 interface SignUpState {
 	email: string
@@ -35,12 +35,7 @@ export default class SignUp extends React.Component<unknown, SignUpState> {
 		}
 
 		// if creating user is successful - reset the form
-		if (
-			await FirebaseUtil.CreateUserWithEmailAndPassword(
-				{ email, password },
-				{ displayName }
-			)
-		) {
+		if (await createUserWithEmailPassword({ email, password }, { displayName })) {
 			this.setState(initialState)
 		}
 	}

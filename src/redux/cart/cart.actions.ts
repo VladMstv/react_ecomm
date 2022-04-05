@@ -1,10 +1,11 @@
-import ShopDataItem from 'models/shop-data-item.model'
+import Product from 'models/product.model'
 import { PayloadAction } from 'redux/utils/payload-action'
 
 type ToggleCartHiddenAction = PayloadAction<'TOGGLE_CART_HIDDEN'>
-type AddItemAction = PayloadAction<'ADD_ITEM', ShopDataItem>
-
-export type CartAction = ToggleCartHiddenAction | AddItemAction
+type AddProductAction = PayloadAction<'ADD_ITEM', Product>
+type IncreaseQuantityAction = PayloadAction<'INCREASE_QUANTITY', Product['id']>
+type RemoveProductAction = PayloadAction<'REMOVE_PRODUCT', Product>
+type DecreaseQuantityAction = PayloadAction<'DECREASE_QUANTITY', Product['id']>
 
 export function toggleCartHidden(): ToggleCartHiddenAction {
 	return {
@@ -12,9 +13,37 @@ export function toggleCartHidden(): ToggleCartHiddenAction {
 	}
 }
 
-export function addCartItem(item: ShopDataItem): AddItemAction {
+export function addProduct(product: Product): AddProductAction {
 	return {
 		type: 'ADD_ITEM',
-		payload: item,
+		payload: product,
 	}
 }
+
+export function increaseQuantity(id: number): IncreaseQuantityAction {
+	return {
+		type: 'INCREASE_QUANTITY',
+		payload: id,
+	}
+}
+
+export function removeProduct(product: Product): RemoveProductAction {
+	return {
+		type: 'REMOVE_PRODUCT',
+		payload: product,
+	}
+}
+
+export function decreaseQuantity(id: number): DecreaseQuantityAction {
+	return {
+		type: 'DECREASE_QUANTITY',
+		payload: id,
+	}
+}
+
+export type CartAction =
+	| ToggleCartHiddenAction
+	| AddProductAction
+	| IncreaseQuantityAction
+	| RemoveProductAction
+	| DecreaseQuantityAction

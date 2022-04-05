@@ -1,15 +1,15 @@
-import ShopDataItem from 'models/shop-data-item.model'
+import Product from 'models/product.model'
 import React from 'react'
 import { connect, MapDispatchToProps } from 'react-redux'
-import { addCartItem } from 'redux/cart/cart.actions'
-import CustomButton from './custom-button.component'
+import { addProduct } from 'redux/cart/cart.actions'
+import CustomButton from '../shared/custom-button.component'
 
 interface CollectionItemOwnProps {
-	item: ShopDataItem
+	item: Product
 }
 
 type DispatchProps = {
-	addCartItemFn: typeof addCartItem
+	addCartItemFn: typeof addProduct
 }
 
 type Props = DispatchProps & CollectionItemOwnProps
@@ -18,7 +18,7 @@ const mapDispatchToProps: MapDispatchToProps<
 	DispatchProps,
 	CollectionItemOwnProps
 > = dispatch => ({
-	addCartItemFn: item => dispatch(addCartItem(item)),
+	addCartItemFn: item => dispatch(addProduct(item)),
 })
 
 function CollectionItem(props: Props) {
@@ -28,11 +28,13 @@ function CollectionItem(props: Props) {
 		addCartItemFn(data)
 	}
 
+	const bgStyle = { backgroundImage: `url(${data.imageUrl})` }
+
 	return (
 		<div className='collection-item min-w-90 max-w-120 flex flex-col flex-1 h-90 items-center relative group'>
 			<div
 				className='image w-full h-90-perc bg-cover bg-center mb-3 opacity-80 group-hover:opacity-100'
-				style={{ backgroundImage: `url(${data.imageUrl})` }}
+				style={bgStyle}
 			/>
 			<div className='collection-footer h-10-perc w-full flex space-between text-lg'>
 				<span className='name flex-auto'>{data.name}</span>
@@ -40,7 +42,7 @@ function CollectionItem(props: Props) {
 			</div>
 			<CustomButton
 				classes='absolute w-80-perc opacity-70 bottom-20 group-hover:opacity-100 transition group-hover:flex hidden'
-				inverted
+				buttonVariant='inverted'
 				handleClick={handleClick}
 			>
 				Add to cart

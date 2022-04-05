@@ -11,6 +11,7 @@ function MenuItem(props: MenuItemProps): JSX.Element {
 	const { title, imageUrl, linkUrl } = props
 
 	const navigate = useNavigate()
+
 	return (
 		<button
 			type='button'

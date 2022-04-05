@@ -1,12 +1,13 @@
 import React from 'react'
-import { connect, MapStateToProps } from 'react-redux'
+import { connect, MapStateToProps, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { selectCartOpened } from 'redux/cart/cart.selectors'
 import { RootState } from 'redux/store'
 import { UserState } from 'redux/user/user.reducer'
 import { selectCurrentUser } from 'redux/user/user.selectors'
-import { ReactComponent as Logo } from '../assets/crown.svg'
-import CartDropdown from './cart-dropdown.component'
-import CartIcon from './cart-icon.component'
+import { ReactComponent as Logo } from '../../assets/crown.svg'
+import CartDropdown from '../cart/cart-dropdown.component'
+import CartIcon from '../cart/cart-icon.component'
 
 interface HeaderProps {
 	handleSignOut: React.ReactEventHandler<HTMLButtonElement>
@@ -17,8 +18,9 @@ type StateProps = Pick<UserState, 'currentUser'>
 type Props = HeaderProps & StateProps
 
 function Header({ currentUser, handleSignOut }: Props): JSX.Element {
+	const dropdownShown = useSelector(selectCartOpened)
+
 	const optionLinksClassess = 'font-semibold hover:opacity-70'
-	console.log('Render header')
 	return (
 		<div className='header mb-5 flex justify-between items-center relative'>
 			<Link className='logo-container h-full w-20 p-5' to='/'>
@@ -44,7 +46,7 @@ function Header({ currentUser, handleSignOut }: Props): JSX.Element {
 				<CartIcon />
 			</div>
 
-			<CartDropdown />
+			{dropdownShown && <CartDropdown />}
 		</div>
 	)
 }

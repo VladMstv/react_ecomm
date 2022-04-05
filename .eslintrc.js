@@ -20,6 +20,7 @@ module.exports = {
   plugins: [
     'react',
     '@typescript-eslint',
+    "react-hooks"
   ],
   rules: {
     "react/jsx-filename-extension": [
@@ -41,6 +42,8 @@ module.exports = {
         namedComponents: "function-declaration",
       },
     ],
+    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+    "react-hooks/exhaustive-deps": "warn",
     "jsx-a11y/label-has-associated-control": ["error", {
       "required": {
         "some": ["nesting", "id"]

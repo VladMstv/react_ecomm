@@ -1,21 +1,17 @@
-import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react'
+import { HTMLElementValueType } from 'models/util/input-value-type'
+import React from 'react'
 
-type InputValueType = DetailedHTMLProps<
-	InputHTMLAttributes<HTMLInputElement>,
-	HTMLElement
->['value']
-
-interface FormInputProps<T = InputValueType> {
+interface FormInputProps {
 	handleChange: React.ChangeEventHandler<HTMLInputElement>
 	label: string
 	id: string
 	type?: string
 	required?: boolean
-	value: T
+	value: HTMLElementValueType<HTMLInputElement>
 	name: string
 }
 
-function FormInput(props: FormInputProps<InputValueType>) {
+function FormInput(props: FormInputProps) {
 	const { handleChange, label, id, type, required, value, name } = props
 	return (
 		<div className='form-group relative my-5'>
@@ -46,6 +42,6 @@ function FormInput(props: FormInputProps<InputValueType>) {
 FormInput.defaultProps = {
 	type: 'text',
 	required: false,
-} as Partial<FormInputProps<unknown>>
+} as Partial<FormInputProps>
 
 export default FormInput

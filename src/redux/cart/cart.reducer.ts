@@ -27,7 +27,28 @@ const cartReducer: Reducer<CartState, CartAction> = (
 		case 'ADD_ITEM': {
 			return {
 				...state,
-				cartItems: CartUtils.AddItemToCart(state.cartItems, action.payload!),
+				cartItems: CartUtils.AddItemToCart(state.cartItems, action.payload),
+			}
+		}
+		case 'INCREASE_QUANTITY': {
+			return {
+				...state,
+				cartItems: CartUtils.IncreaseQuantity(state.cartItems, action.payload),
+			}
+		}
+		case 'DECREASE_QUANTITY': {
+			return {
+				...state,
+				cartItems: CartUtils.DecreaseQuantity(state.cartItems, action.payload),
+			}
+		}
+		case 'REMOVE_PRODUCT': {
+			const cartItem = state.cartItems.find(
+				x => x.product.id === action.payload?.id
+			)
+			return {
+				...state,
+				cartItems: CartUtils.RemoveItem(state.cartItems, cartItem),
 			}
 		}
 		default:

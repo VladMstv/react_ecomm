@@ -1,13 +1,13 @@
 import { DirectorySection } from 'models/directory-section.model'
 import React from 'react'
 import SECTIONS_DATA from 'sections.data'
-import MenuItem from './menu-item.component'
+import MenuItem from '../layout/menu-item.component'
 
 type DirectoryState = {
 	sections: DirectorySection[]
 }
 
-export default class Directory extends React.Component<
+export default class ShopDirectory extends React.Component<
 	unknown,
 	DirectoryState
 > {

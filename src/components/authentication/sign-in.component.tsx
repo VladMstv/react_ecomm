@@ -1,13 +1,13 @@
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import React, { FormEvent } from 'react'
-import CustomButton from './custom-button.component'
-import FormInput from './form-input.component'
-import FirebaseUtil from '../utils/firebase.util'
+import { auth, sgnInWithGooglePopup } from 'utils/firebase/firebase.util'
+import CustomButton from '../shared/custom-button.component'
+import FormInput from '../shared/form-input.component'
 
 interface SignInState {
 	email: string
 	password: string
 }
-
 export default class SignIn extends React.Component<unknown, SignInState> {
 	constructor(props = {}) {
 		super(props)
@@ -22,7 +22,7 @@ export default class SignIn extends React.Component<unknown, SignInState> {
 		event.preventDefault()
 		const { email, password } = this.state
 		try {
-			await FirebaseUtil.SignInWithEmailAndPassword(email, password)
+			await signInWithEmailAndPassword(auth, email, password)
 			this.setState({ email: '', password: '' })
 		} catch (error: any) {
 			alert('Email or password incorrect')
@@ -65,7 +65,7 @@ export default class SignIn extends React.Component<unknown, SignInState> {
 							SIGN IN
 						</CustomButton>
 						<CustomButton
-							handleClick={() => FirebaseUtil.SignInWithGoogle()}
+							handleClick={sgnInWithGooglePopup}
 							classes='flex-auto ml-3 bg-blue-500 border-blue-500 hover:border-black'
 						>
 							SIGN IN WITH GOOGLE

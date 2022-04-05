@@ -1,8 +1,8 @@
-import ShopDataItem from './shop-data-item.model'
+import Product from './product.model'
 
 export default interface ShopDataSection {
 	id: number
 	title: string
 	routeName: string
-	items: ShopDataItem[]
+	items: Product[]
 }
