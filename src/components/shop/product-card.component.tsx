@@ -5,7 +5,7 @@ import { addProduct } from 'redux/cart/cart.actions'
 import CustomButton from '../shared/custom-button.component'
 
 interface CollectionItemOwnProps {
-	item: Product
+	product: Product
 }
 
 type DispatchProps = {
@@ -21,8 +21,8 @@ const mapDispatchToProps: MapDispatchToProps<
 	addCartItemFn: item => dispatch(addProduct(item)),
 })
 
-function CollectionItem(props: Props) {
-	const { item: data, addCartItemFn } = props
+function ProductCard(props: Props) {
+	const { product: data, addCartItemFn } = props
 
 	const handleClick = () => {
 		addCartItemFn(data)
@@ -51,4 +51,4 @@ function CollectionItem(props: Props) {
 	)
 }
 
-export default connect(null, mapDispatchToProps)(CollectionItem)
+export default connect(null, mapDispatchToProps)(ProductCard)

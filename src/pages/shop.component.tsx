@@ -1,30 +1,14 @@
-import PreviewCollection from 'components/shop/preview-collection.component'
-import ShopDataSection from 'models/shop-data-section.model'
+import Category from 'components/shop/shop-category.component'
 import React from 'react'
-import SHOP_DATA from 'shop.data'
+import { Route, Routes } from 'react-router-dom'
+import CategoriesPreview from './categories-preview.component'
 
-interface ShopPageState {
-	collections: ShopDataSection[]
+function ShopPage() {
+	return (
+		<Routes>
+			<Route index element={<CategoriesPreview />} />
+			<Route path=':category' element={<Category />} />
+		</Routes>
+	)
 }
-
-export default class ShopPage extends React.Component<
-	Record<string, never>,
-	ShopPageState
-> {
-	constructor(props: Record<string, never>) {
-		super(props)
-
-		this.state = { collections: SHOP_DATA }
-	}
-
-	render() {
-		const { collections } = this.state
-		return (
-			<div>
-				{collections.map(({ id, title, items }) => (
-					<PreviewCollection key={id} title={title} items={items} />
-				))}
-			</div>
-		)
-	}
-}
+export default ShopPage

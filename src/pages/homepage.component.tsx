@@ -1,4 +1,4 @@
-import ShopDirectory from 'components/shop/shop-directory.component'
+import ShopDirectory from 'components/shop/directory/shop-directory.component'
 import React from 'react'
 
 export default function HomePage(): JSX.Element {

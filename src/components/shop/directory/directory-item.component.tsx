@@ -7,7 +7,7 @@ interface MenuItemProps {
 	linkUrl: string
 }
 
-function MenuItem(props: MenuItemProps): JSX.Element {
+function DirectoryItem(props: MenuItemProps): JSX.Element {
 	const { title, imageUrl, linkUrl } = props
 
 	const navigate = useNavigate()
@@ -26,7 +26,7 @@ function MenuItem(props: MenuItemProps): JSX.Element {
 					backgroundImage: `url(${imageUrl})`,
 				}}
 			/>
-			<div className='content border border-gray-400 p-5 bg-gray-100 bg-opacity-60 hover:bg-opacity-80 transition z-10'>
+			<div className='content border border-gray-700 p-5 bg-gray-100 bg-opacity-60 hover:bg-opacity-80 transition z-10'>
 				<h1 className='title font-semibold'>{title.toUpperCase()}</h1>
 				<span className='subtitle'>SHOP NOW</span>
 			</div>
@@ -34,4 +34,4 @@ function MenuItem(props: MenuItemProps): JSX.Element {
 	)
 }
 
-export default MenuItem
+export default DirectoryItem

@@ -1,8 +1,6 @@
 import Product from './product.model'
 
-export default interface ShopDataSection {
-	id: number
+export default interface ShopDataCategory {
 	title: string
-	routeName: string
 	items: Product[]
 }

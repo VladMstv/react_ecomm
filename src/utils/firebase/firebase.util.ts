@@ -8,12 +8,18 @@ import {
 	User,
 } from 'firebase/auth'
 import {
+	collection,
 	doc,
 	getDoc,
+	getDocs,
 	getFirestore,
 	onSnapshot,
+	query,
 	setDoc,
+	writeBatch,
 } from 'firebase/firestore'
+import Product from 'models/product.model'
+import ShopDataCategory from 'models/shop-data-category.model'
 import AppUser from 'models/user.model'
 import { setUser } from 'redux/user/user.actions'
 
@@ -106,3 +112,50 @@ export const ObserveUserAuthStateChange = (
 			setCurrentUser(null)
 		}
 	})
+
+export const addCollectionAndDocuments = async (
+	collectionKey: string,
+	objectsToAdd: any[],
+	idField: string
+) => {
+	const collectionRef = collection(firestore, collectionKey)
+
+	const batch = writeBatch(firestore)
+
+	objectsToAdd.forEach(obj => {
+		const docRef = doc(collectionRef, obj[idField].toLowerCase())
+		batch.set(docRef, obj)
+	})
+
+	await batch.commit()
+}
+
+export const getCollectionsAndDocuments = async () => {
+	const collectionRef = collection(firestore, 'categories')
+
+	const q = query(collectionRef)
+
+	const querySnapshop = await getDocs(q)
+
+	const categoryDocsMap = querySnapshop.docs.reduce(
+		(acc: { [id: string]: Product[] }, docSnapshot) => {
+			const { title, items } = docSnapshot.data() as ShopDataCategory
+			acc[title.toLowerCase()] = items
+			return acc
+		},
+		{}
+	)
+	return categoryDocsMap
+}
+
+export const getCollectionDocuments = async (collectionKey: string) => {
+	const collectionRef = collection(firestore, 'categories', collectionKey)
+
+	const q = query(collectionRef)
+
+	const querySnapshop = await getDocs(q)
+
+	const items = querySnapshop.docs.map(x => x.data()) as Product[]
+
+	return items
+}
