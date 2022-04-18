@@ -1,9 +1,9 @@
-import Product from 'models/product.model'
+import ShopDataCategory from 'models/shop-data-category.model'
 import { PayloadAction } from 'redux/utils/payload-action'
 
-export type SetCategoriesMapAction = PayloadAction<
-	'SET_CATEGORIES_MAP',
-	{ [key: string]: Product[] }
+export type SetCategoriesAction = PayloadAction<
+	'SET_CATEGORIES',
+	ShopDataCategory[]
 >
 
-export type CategoryAction = SetCategoriesMapAction
+export type CategoryAction = SetCategoriesAction

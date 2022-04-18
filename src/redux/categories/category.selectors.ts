@@ -1,3 +1,4 @@
+import Product from 'models/product.model'
 import { RootState } from 'redux/store'
 import { createSelector } from 'reselect'
 import { CategoriesState } from './category.reducer'
@@ -6,5 +7,9 @@ export const selectCategoriesState = (state: RootState) => state.categories
 
 export const selectCategoriesMap = createSelector(
 	selectCategoriesState,
-	(state: CategoriesState) => state.categoriesMap
+	(state: CategoriesState) =>
+		state.categories.reduce((acc, curr) => {
+			acc[curr.title.toLowerCase()] = curr.items
+			return acc
+		}, {} as { [key: string]: Product[] })
 )

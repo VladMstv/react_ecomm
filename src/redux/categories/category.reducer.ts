@@ -1,4 +1,5 @@
 import Product from 'models/product.model'
+import ShopDataCategory from 'models/shop-data-category.model'
 import { Reducer } from 'redux'
 import SHOP_DATA from 'shop-data'
 import { CategoryAction } from '.'
@@ -11,11 +12,11 @@ for (let index = 0; index < SHOP_DATA.length; index += 1) {
 }
 
 export interface CategoriesState {
-	categoriesMap: typeof catsMap
+	categories: ShopDataCategory[]
 }
 
 const initialState: CategoriesState = {
-	categoriesMap: catsMap,
+	categories: SHOP_DATA,
 }
 
 const categoriesReducer: Reducer<CategoriesState> = (
@@ -23,10 +24,10 @@ const categoriesReducer: Reducer<CategoriesState> = (
 	action: CategoryAction = {} as CategoryAction
 ) => {
 	switch (action.type) {
-		case 'SET_CATEGORIES_MAP':
+		case 'SET_CATEGORIES':
 			return {
 				...state,
-				categoriesMap: action.payload || {},
+				categories: action.payload || [],
 			}
 		default:
 			return state

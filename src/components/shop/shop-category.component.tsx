@@ -1,35 +1,24 @@
-import ShopDataCategory from 'models/shop-data-category.model'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import SHOP_DATA from 'shop-data'
+import { selectCategoriesMap } from 'redux/categories'
 import ProductCardComponent from './product-card.component'
-
-function findCategory(
-	categories: ShopDataCategory[],
-	categoryName: string
-): ShopDataCategory | undefined {
-	return categories.find(x => x.title.toLowerCase() === categoryName)
-}
 
 function Category() {
 	const { category } = useParams()
-	const categories = SHOP_DATA
+	const categoriesMap = useSelector(selectCategoriesMap)
 
-	const [categoryItem, setCategoryItem] = useState(
-		findCategory(categories, category!)!
-	)
+	const currentCategoryItems = categoriesMap[category?.toLowerCase() || '']
 
-	useEffect(() => {
-		const newCategory = findCategory(categories, category!)
-		setCategoryItem(newCategory as ShopDataCategory)
-	}, [category])
+	console.log('render category')
 
-	const { items: products } = categoryItem
 	return (
 		<>
-			<h2 className='text-3xl font-semibold text-center w-full mb-5'>{category?.toUpperCase()}</h2>
+			<h2 className='text-3xl font-semibold text-center w-full mb-5'>
+				{category?.toUpperCase()}
+			</h2>
 			<div className='category-container flex gap-5 justify-evenly md:justify-start flex-wrap'>
-				{products.map(product => {
+				{currentCategoryItems.map(product => {
 					const { id } = product
 					return <ProductCardComponent key={id} product={product} />
 				})}

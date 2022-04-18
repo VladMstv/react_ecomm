@@ -1,9 +1,8 @@
-import Product from 'models/product.model'
+import ShopDataCategory from 'models/shop-data-category.model'
 import createAction from 'redux/utils/action-creator'
-import { SetCategoriesMapAction } from '.'
+import { SetCategoriesAction } from '.'
 
-const SetCategories = (categories: {
-	[key: string]: Product[]
-}): SetCategoriesMapAction => createAction('SET_CATEGORIES_MAP', categories)
+const SetCategories = (categories: ShopDataCategory[]): SetCategoriesAction =>
+	createAction('SET_CATEGORIES', categories)
 
 export default SetCategories
