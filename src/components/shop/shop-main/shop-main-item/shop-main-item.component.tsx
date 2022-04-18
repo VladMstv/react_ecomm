@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import ShopMainItemComponent from './shop-main-item.styles'
 
 interface MenuItemProps {
 	title: string
@@ -7,16 +8,16 @@ interface MenuItemProps {
 	linkUrl: string
 }
 
-function DirectoryItem(props: MenuItemProps): JSX.Element {
+function ShopMainItem(props: MenuItemProps): JSX.Element {
 	const { title, imageUrl, linkUrl } = props
 
 	const navigate = useNavigate()
 
 	return (
-		<button
+		<ShopMainItemComponent
 			type='button'
-			className='group menu-item min-w-30-perc flex-auto h-60 flex justify-center 
-                cursor-pointer items-center border mt-0 mr-3 mb-7 first:mr-3 relative overflow-hidden'
+			className={`group menu-item min-w-30-perc flex-auto h-60 flex justify-center 
+                cursor-pointer items-center border mt-0 mr-3 mb-7 first:mr-3 relative overflow-hidden`}
 			// open concrete section
 			onClick={() => navigate(linkUrl)}
 		>
@@ -30,8 +31,8 @@ function DirectoryItem(props: MenuItemProps): JSX.Element {
 				<h1 className='title font-semibold'>{title.toUpperCase()}</h1>
 				<span className='subtitle'>SHOP NOW</span>
 			</div>
-		</button>
+		</ShopMainItemComponent>
 	)
 }
 
-export default DirectoryItem
+export default ShopMainItem

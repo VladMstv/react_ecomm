@@ -1,6 +1,6 @@
 import AppUser from 'models/user.model'
 import { Reducer } from 'redux'
-import { UserActions } from './user.actions'
+import { UserActions } from '.'
 
 export interface UserState {
 	currentUser: AppUser | null

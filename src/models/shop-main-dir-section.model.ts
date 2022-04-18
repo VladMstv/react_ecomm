@@ -1,7 +1,6 @@
-export interface DirectorySection {
+export interface ShopMainDirSection {
 	title: string
 	imageUrl: string
 	id: number
 	linkUrl: string
-	size?: string
 }

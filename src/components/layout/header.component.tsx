@@ -1,30 +1,24 @@
 import React from 'react'
-import { connect, MapStateToProps, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { selectCartOpened } from 'redux/cart/cart.selectors'
-import { RootState } from 'redux/store'
-import { UserState } from 'redux/user/user.reducer'
 import { selectCurrentUser } from 'redux/user/user.selectors'
+import { signOut } from 'utils/firebase/firebase.util'
 import { ReactComponent as Logo } from '../../assets/crown.svg'
 import CartDropdown from '../cart/cart-dropdown.component'
 import CartIcon from '../cart/cart-icon.component'
 
-interface HeaderProps {
-	handleSignOut: React.ReactEventHandler<HTMLButtonElement>
-}
-
-type StateProps = Pick<UserState, 'currentUser'>
-
-type Props = HeaderProps & StateProps
-
-function Header({ currentUser, handleSignOut }: Props): JSX.Element {
+function Header(): JSX.Element {
 	const dropdownShown = useSelector(selectCartOpened)
+
+	const currentUser = useSelector(selectCurrentUser)
 
 	const optionLinksClassess = 'font-semibold hover:opacity-70'
 	return (
-		<div className='header mb-5 flex justify-between items-center relative'>
-			<Link className='logo-container h-full w-20 p-5' to='/'>
-				<Logo className='logo' />
+		<div className='header mb-5 flex flex-wrap justify-between items-center relative'>
+			<Link className='logo-container h-full pb-5 pt-5 flex items-center' to='/'>
+				<Logo className='logo mr-3' />
+				<span className='text-3xl font-semibold'>REACTOZO SHOP</span>
 			</Link>
 			<div className='options flex gap-5 items-center'>
 				<Link className={optionLinksClassess} to='/shop'>
@@ -35,7 +29,7 @@ function Header({ currentUser, handleSignOut }: Props): JSX.Element {
 				</Link>
 
 				{currentUser ? (
-					<button type='button' onClick={handleSignOut}>
+					<button type='button' onClick={signOut}>
 						SIGN OUT
 					</button>
 				) : (
@@ -51,12 +45,4 @@ function Header({ currentUser, handleSignOut }: Props): JSX.Element {
 	)
 }
 
-const mapStateToProps: MapStateToProps<UserState, HeaderProps, RootState> = (
-	state,
-	ownProps
-) => ({
-	...ownProps,
-	currentUser: selectCurrentUser(state),
-})
-
-export default connect(mapStateToProps)(Header)
+export default Header

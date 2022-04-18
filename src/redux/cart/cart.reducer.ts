@@ -1,6 +1,6 @@
 import { CartItem } from 'models/cart-item.model'
 import { Reducer } from 'redux'
-import { CartAction } from './cart.actions'
+import { CartAction } from '.'
 import CartUtils from './cart.util'
 
 export interface CartState {

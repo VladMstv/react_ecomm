@@ -1,35 +1,20 @@
 import { ReactComponent as ShoppingIcon } from 'assets/shopping-bag.svg'
 import React from 'react'
-import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
-import { toggleCartHidden } from 'redux/cart/cart.actions'
-import { selectCartItemsCount } from 'redux/cart/cart.selectors'
-import { RootState } from 'redux/store'
-import { createStructuredSelector } from 'reselect'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectCartItemsCount, toggleCartHidden } from 'redux/cart'
 
-interface CartIconDispatchProps {
-	toggleCartHiddenFn: typeof toggleCartHidden
-}
+function CartIcon(): JSX.Element {
+	const dispatch = useDispatch()
 
-interface CartIconStateProps {
-	itemCount: number
-}
+	const itemCount = useSelector(selectCartItemsCount)
 
-type CartIconProps = CartIconDispatchProps & CartIconStateProps
+	const handleClick = () => dispatch(toggleCartHidden())
 
-const mapDispatchToProps: MapDispatchToProps<
-	CartIconDispatchProps,
-	Record<string, never>
-> = dispatch => ({
-	toggleCartHiddenFn: () => dispatch(toggleCartHidden()),
-})
-
-function CartIcon(props: CartIconProps): JSX.Element {
-	const { toggleCartHiddenFn, itemCount } = props
 	return (
 		<button
 			type='button'
 			className='cart-icon w-8 h-8 relative flex items-center justify-center cursor-pointer'
-			onClick={toggleCartHiddenFn}
+			onClick={handleClick}
 		>
 			<ShoppingIcon className='shopping-icon w-6 h-6' />
 			<span className='item-count absolute text-sm font-semibold bottom-0.5'>
@@ -39,10 +24,4 @@ function CartIcon(props: CartIconProps): JSX.Element {
 	)
 }
 
-const mapStateToProps: MapStateToProps<
-	CartIconStateProps,
-	Record<string, never>,
-	RootState
-> = createStructuredSelector({ itemCount: selectCartItemsCount })
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartIcon)
+export default CartIcon

@@ -21,7 +21,7 @@ import {
 import Product from 'models/product.model'
 import ShopDataCategory from 'models/shop-data-category.model'
 import AppUser from 'models/user.model'
-import { setUser } from 'redux/user/user.actions'
+import setUser from 'redux/user/user.actions'
 
 const config: FirebaseOptions = {
 	apiKey: 'AIzaSyDbyTWodl9HsKYBisvQ8Jx2bTe3Rq3Sh80',

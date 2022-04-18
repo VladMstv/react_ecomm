@@ -14,12 +14,14 @@ interface CheckoutItemProps {
 function CheckoutItem(props: CheckoutItemProps) {
 	const dispatch = useDispatch()
 
-	const { cartItem } = props
-	const { product, quantity } = cartItem
-	const { name, imageUrl, price } = product
+	const {
+		cartItem: { product, quantity },
+	} = props
 
-	const increase = () => dispatch(increaseQuantity(cartItem.product.id))
-	const decrease = () => dispatch(decreaseQuantity(cartItem.product.id))
+	const { id, imageUrl, price, name } = product
+
+	const increase = () => dispatch(increaseQuantity(id))
+	const decrease = () => dispatch(decreaseQuantity(id))
 
 	return (
 		<>

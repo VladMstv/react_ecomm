@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { connect, MapStateToProps, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { toggleCartHidden } from 'redux/cart/cart.actions'
-import { CartState } from 'redux/cart/cart.reducer'
-import { selectCartItems } from 'redux/cart/cart.selectors'
+import { CartState, selectCartItems, toggleCartHidden } from 'redux/cart'
 import { RootState } from 'redux/store'
 import CustomButton from '../shared/custom-button.component'
 
@@ -20,6 +18,15 @@ const mapStateToProps: MapStateToProps<
 	hidden: state.cart.hidden,
 })
 
+/**
+ * Component with an example on how you can use props with connect HOC
+ * to connect our store with the component and get state
+ * with mapStateToProps function
+ * @param props
+ * @returns
+ */
+//
+//
 function CartDropdown(props: Props): JSX.Element {
 	const { cartItems } = props
 

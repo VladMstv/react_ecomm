@@ -13,9 +13,10 @@ type PreviewCollectionProps = {
 function CategoryPreview(props: PreviewCollectionProps): JSX.Element {
 	const { title, items } = props
 	const titleUpper = useMemo(() => title.toUpperCase(), [title])
+	console.log('render category preview')
 	const titleLower = title.toLowerCase();
 	return (
-		<div className='collection-preview mb-5'>
+		<div className='collection-preview mb-10'>
 			<Link className='flex text-3xl font-semibold mb-5' to={titleLower}>
 				{titleUpper}
 			</Link>

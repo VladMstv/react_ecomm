@@ -1,12 +1,8 @@
 import AppUser from 'models/user.model'
-import { PayloadAction } from 'redux/utils/payload-action'
+import createAction from 'redux/utils/action-creator'
+import { SetUserAction } from '.'
 
-type SetUserAction = PayloadAction<'SET_USER_ACTION', AppUser | null>
-export type UserActions = SetUserAction
+export const setUser = (user: AppUser | null): SetUserAction =>
+	createAction('SET_USER_ACTION', user)
 
-export function setUser(user: AppUser | null): SetUserAction {
-	return {
-		type: 'SET_USER_ACTION',
-		payload: user,
-	}
-}
+export default setUser

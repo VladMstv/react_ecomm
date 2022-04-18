@@ -9,10 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { setUser } from 'redux/user/user.actions'
 import { selectCurrentUser } from 'redux/user/user.selectors'
-import {
-	ObserveUserAuthStateChange,
-	signOut,
-} from 'utils/firebase/firebase.util'
+import { ObserveUserAuthStateChange } from 'utils/firebase/firebase.util'
 import './styles.css'
 
 export default function App() {
@@ -28,7 +25,7 @@ export default function App() {
 
 	return (
 		<div>
-			<Header handleSignOut={signOut} />
+			<Header />
 			<Routes>
 				<Route path='/' element={<HomePage />} />
 				<Route path='shop/*' element={<ShopPage />} />
