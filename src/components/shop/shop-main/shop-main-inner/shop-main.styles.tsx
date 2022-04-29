@@ -11,7 +11,7 @@ const DirectoryMenu = styled('div')`
 		margin: 0.5rem;
 		flex: 1 1 calc(33% - 1rem);
 
-		@media (min-width: 1280px) {
+		@media (min-width: 849px) {
 			&:nth-last-child(-n + 2) {
                 height: 30rem !important;
 			}

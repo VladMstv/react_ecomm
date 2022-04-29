@@ -137,15 +137,10 @@ export const getCollectionsAndDocuments = async () => {
 
 	const querySnapshop = await getDocs(q)
 
-	const categoryDocsMap = querySnapshop.docs.reduce(
-		(acc: { [id: string]: Product[] }, docSnapshot) => {
-			const { title, items } = docSnapshot.data() as ShopDataCategory
-			acc[title.toLowerCase()] = items
-			return acc
-		},
-		{}
+	const categoryDocs = querySnapshop.docs.map(
+		docSnapshot => docSnapshot.data() as ShopDataCategory
 	)
-	return categoryDocsMap
+	return categoryDocs
 }
 
 export const getCollectionDocuments = async (collectionKey: string) => {

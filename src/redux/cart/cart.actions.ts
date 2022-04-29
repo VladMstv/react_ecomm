@@ -1,5 +1,5 @@
 import Product from 'models/product.model'
-import createAction from 'redux/utils/action-creator'
+import { createAction } from 'redux/utils/action-creator'
 import {
 	AddProductAction,
 	DecreaseQuantityAction,

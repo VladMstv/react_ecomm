@@ -2,10 +2,9 @@ import { applyMiddleware, createStore } from 'redux'
 import logger from 'redux-logger'
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/es/storage'
-import thunk from 'redux-thunk'
+import createSagaMiddleware from 'redux-saga'
 import rootReducer from './root-reducer'
-
-const middlewares = [logger, thunk]
+import { rootSaga } from './root-saga'
 
 const persistConfig = {
 	key: 'root',
@@ -13,9 +12,15 @@ const persistConfig = {
 	blacklist: ['user'],
 }
 
+const sagaMiddleware = createSagaMiddleware()
+
+const middlewares = [logger, sagaMiddleware]
+
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const store = createStore(persistedReducer, applyMiddleware(...middlewares))
+
+sagaMiddleware.run(rootSaga)
 
 export default store
 

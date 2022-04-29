@@ -13,3 +13,8 @@ export const selectCategoriesMap = createSelector(
 			return acc
 		}, {} as { [key: string]: Product[] })
 )
+
+export const selectCategoriesIsLoading = createSelector(
+	selectCategoriesState,
+	state => state.isLoading
+)

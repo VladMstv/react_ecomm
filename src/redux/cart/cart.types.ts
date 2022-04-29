@@ -1,11 +1,18 @@
 import Product from 'models/product.model'
-import { PayloadAction } from 'redux/utils/payload-action'
+import { Action } from 'redux'
+import { ActionWPayload } from 'redux/utils/payload-action'
 
-export type ToggleCartHiddenAction = PayloadAction<'TOGGLE_CART_HIDDEN'>
-export type AddProductAction = PayloadAction<'ADD_ITEM', Product>
-export type IncreaseQuantityAction = PayloadAction<'INCREASE_QUANTITY', Product['id']>
-export type RemoveProductAction = PayloadAction<'REMOVE_PRODUCT', Product>
-export type DecreaseQuantityAction = PayloadAction<'DECREASE_QUANTITY', Product['id']>
+export type ToggleCartHiddenAction = Action<'TOGGLE_CART_HIDDEN'>
+export type AddProductAction = ActionWPayload<'ADD_ITEM', Product>
+export type IncreaseQuantityAction = ActionWPayload<
+	'INCREASE_QUANTITY',
+	Product['id']
+>
+export type RemoveProductAction = ActionWPayload<'REMOVE_PRODUCT', Product>
+export type DecreaseQuantityAction = ActionWPayload<
+	'DECREASE_QUANTITY',
+	Product['id']
+>
 
 export type CartAction =
 	| ToggleCartHiddenAction
