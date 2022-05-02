@@ -3,17 +3,20 @@ import {
 	createUserWithEmailAndPassword,
 	getAuth,
 	GoogleAuthProvider,
+	onAuthStateChanged,
+	signInWithEmailAndPassword,
 	signInWithPopup,
-	Unsubscribe,
 	User,
 } from 'firebase/auth'
 import {
 	collection,
 	doc,
+	DocumentData,
+	DocumentReference,
+	DocumentSnapshot,
 	getDoc,
 	getDocs,
 	getFirestore,
-	onSnapshot,
 	query,
 	setDoc,
 	writeBatch,
@@ -21,7 +24,6 @@ import {
 import Product from 'models/product.model'
 import ShopDataCategory from 'models/shop-data-category.model'
 import AppUser from 'models/user.model'
-import setUser from 'redux/user/user.actions'
 
 const config: FirebaseOptions = {
 	apiKey: 'AIzaSyDbyTWodl9HsKYBisvQ8Jx2bTe3Rq3Sh80',
@@ -40,11 +42,18 @@ googleProvider.setCustomParameters({ prompt: 'select_account' })
 
 export const auth = getAuth()
 
-export const sgnInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
+export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
+
+export const signInWithEmailNPassword = (email: string, password: string) =>
+	signInWithEmailAndPassword(auth, email, password)
 
 export const signOut = () => auth.signOut()
 
-export const createUserProfileDocument = async (userAuth: User) => {
+export const getUserDocAndSnapshotFromUserAuth = async (
+	userAuth: User
+): Promise<
+	[DocumentReference<DocumentData>, DocumentSnapshot<DocumentData>]
+> => {
 	const userRef = doc(firestore, `users`, userAuth.uid)
 	const snapshot = await getDoc(userRef)
 
@@ -61,7 +70,15 @@ export const createUserProfileDocument = async (userAuth: User) => {
 			console.error('Error creating user', error.message)
 		}
 	}
-	return userRef
+	return [userRef, snapshot]
+}
+
+export const getAppUserFromUserAuth = async (userAuth: User) => {
+	const [document, snapshot] = await getUserDocAndSnapshotFromUserAuth(userAuth)
+	return {
+		id: document.id,
+		...(snapshot.data() as Omit<AppUser, 'id'>),
+	} as AppUser
 }
 
 export const createUserWithEmailPassword = async (
@@ -83,7 +100,7 @@ export const createUserWithEmailPassword = async (
 				displayName: userDetails.displayName || '',
 			}
 		}
-		return await createUserProfileDocument(user)
+		return await getAppUserFromUserAuth(user)
 	} catch (error: any) {
 		if (error.code === 'auth/email-already-in-use') {
 			alert('Such an email is already taken')
@@ -93,25 +110,6 @@ export const createUserWithEmailPassword = async (
 	}
 	return undefined
 }
-
-export const ObserveUserAuthStateChange = (
-	setCurrentUser: typeof setUser
-): Unsubscribe =>
-	auth.onAuthStateChanged(async user => {
-		if (user) {
-			const userRef = await createUserProfileDocument(user)
-			onSnapshot(userRef, {
-				next: snapshot => {
-					setCurrentUser({
-						id: snapshot.id,
-						...(snapshot.data() as Omit<AppUser, 'id'>),
-					})
-				},
-			})
-		} else {
-			setCurrentUser(null)
-		}
-	})
 
 export const addCollectionAndDocuments = async (
 	collectionKey: string,
@@ -154,3 +152,15 @@ export const getCollectionDocuments = async (collectionKey: string) => {
 
 	return items
 }
+
+export const getCurrentUserPromise = () =>
+	new Promise<User | null>((resolve, reject) => {
+		const unsubscribe = onAuthStateChanged(
+			auth,
+			userAuth => {
+				unsubscribe()
+				resolve(userAuth)
+			},
+			reject
+		)
+	})

@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { LoadingSpinnerRaw } from './loading-spinner.component'
 
 export const SpinnerOverlay = styled.div`
 	height: 60vh;
@@ -15,4 +16,14 @@ export const SpinnerContainer = styled.div`
 	border: 3px solid rgba(195, 195, 195, 0.6);
 	border-radius: 50%;
 	border-top-color: #636767;
+`
+
+export const LoadingSpinner = styled(LoadingSpinnerRaw)`
+	${props =>
+		props.size === 'sm'
+			? css`
+					width: 25px;
+					height: 25px;
+			  `
+			: null};
 `

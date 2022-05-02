@@ -7,9 +7,8 @@ import ShopPage from 'pages/shop.component'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { setUser } from 'redux/user/user.actions'
+import { checkUserSession } from 'redux/user'
 import { selectCurrentUser } from 'redux/user/user.selectors'
-import { ObserveUserAuthStateChange } from 'utils/firebase/firebase.util'
 import './styles.css'
 
 export default function App() {
@@ -17,10 +16,7 @@ export default function App() {
 	const currentUser = useSelector(selectCurrentUser)
 
 	useEffect(() => {
-		const unsubscriberFromStateChange = ObserveUserAuthStateChange(user =>
-			dispatch(setUser(user))
-		)
-		return unsubscriberFromStateChange
+		dispatch(checkUserSession())
 	}, [dispatch])
 
 	return (
@@ -38,59 +34,3 @@ export default function App() {
 		</div>
 	)
 }
-
-// old class component approach
-
-// type DispatchProps = {
-// 	setCurrentUser: typeof setUser
-// }
-// interface StateProps {
-// 	currentUser: UserState['currentUser']
-// }
-
-// type Props = DispatchProps & StateProps
-
-// const mapStateToProps: MapStateToProps<
-// 	StateProps,
-// 	Record<string, never>,
-// 	RootState
-// > = createStructuredSelector({ currentUser: selectCurrentUser })
-
-// const mapDispatchProps: MapDispatchToProps<
-// 	DispatchProps,
-// 	Record<string, never>
-// > = dispatch => ({
-// 	setCurrentUser: user => dispatch(setUser(user)),
-// })
-// class App extends React.Component<Props> {
-// 	unsubscriberFromStateChange!: Unsubscribe
-
-// 	componentDidMount() {
-// 		const { setCurrentUser } = this.props
-// 		this.unsubscriberFromStateChange = ObserveUserAuthStateChange(setCurrentUser)
-// 	}
-
-// 	componentWillUnmount() {
-// 		this.unsubscriberFromStateChange()
-// 	}
-
-// 	render() {
-// 		const { currentUser } = this.props
-// 		console.log('render app')
-// 		return (
-// 			<div>
-// 				<Header handleSignOut={signOut} />
-// 				<Routes>
-// 					<Route path='/' element={<HomePage />} />
-// 					<Route path='shop/*' element={<ShopPage />} />
-// 					<Route
-// 						path='sign-in'
-// 						element={currentUser ? <Navigate to='/' replace /> : <Authentication />}
-// 					/>
-// 				</Routes>
-// 			</div>
-// 		)
-// 	}
-// }
-
-// export default connect(mapStateToProps, mapDispatchProps)(App)

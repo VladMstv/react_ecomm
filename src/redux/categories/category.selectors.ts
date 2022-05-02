@@ -1,7 +1,7 @@
 import Product from 'models/product.model'
 import { RootState } from 'redux/store'
 import { createSelector } from 'reselect'
-import { CategoriesState } from './category.reducer'
+import { CategoriesState } from '.'
 
 export const selectCategoriesState = (state: RootState) => state.categories
 

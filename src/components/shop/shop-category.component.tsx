@@ -1,4 +1,4 @@
-import LoadingSpinner from 'components/shared/loading-spinner/loading-spinner.component'
+import { LoadingSpinner } from 'components/shared/loading-spinner/loading-spinner.component'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'

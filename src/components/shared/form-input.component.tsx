@@ -1,5 +1,5 @@
 import { HTMLElementValueType } from 'models/util/input-value-type'
-import React from 'react'
+import React, { memo } from 'react'
 
 interface FormInputProps {
 	handleChange: React.ChangeEventHandler<HTMLInputElement>
@@ -44,4 +44,4 @@ FormInput.defaultProps = {
 	required: false,
 } as Partial<FormInputProps>
 
-export default FormInput
+export default memo(FormInput)

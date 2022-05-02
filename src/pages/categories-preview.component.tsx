@@ -1,4 +1,4 @@
-import LoadingSpinner from 'components/shared/loading-spinner/loading-spinner.component'
+import { LoadingSpinner } from 'components/shared/loading-spinner/loading-spinner.component'
 import CategoryPreview from 'components/shop/category-preview.component'
 import React from 'react'
 import { useSelector } from 'react-redux'
