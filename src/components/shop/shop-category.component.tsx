@@ -24,10 +24,11 @@ function Category() {
 				<LoadingSpinner />
 			) : (
 				<div className='category-container flex gap-5 justify-evenly md:justify-center flex-wrap'>
-					{currentCategoryItems.map(product => {
-						const { id } = product
-						return <ProductCardComponent key={id} product={product} />
-					})}
+					{currentCategoryItems &&
+						currentCategoryItems.map(product => {
+							const { id } = product
+							return <ProductCardComponent key={id} product={product} />
+						})}
 				</div>
 			)}
 		</>

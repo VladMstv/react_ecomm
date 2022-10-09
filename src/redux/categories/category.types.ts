@@ -1,22 +1,20 @@
 import ShopDataCategory from 'models/shop-data-category.model'
 import { Action } from 'redux'
-import { ActionTypes } from 'redux/utils/action-types'
 import { ActionWPayload } from 'redux/utils/payload-action'
 
+export enum CategoryActionType {
+	FETCH_CATEGORIES_START = 'categories/FETCH_CATEGORIES_START',
+	FETCH_CATEGORIES_SUCCESS = 'categories/FETCH_CATEGORIES_SUCCESS',
+	FETCH_CATEGORIES_FAIL = 'categories/FETCH_CATEGORIES_FAIL',
+}
+
 export type FetchCategoriesStartAction =
-	Action<'categories/FETCH_CATEGORIES_START'>
+	Action<CategoryActionType.FETCH_CATEGORIES_START>
 export type FetchCategoriesSuccessAction = ActionWPayload<
-	'categories/FETCH_CATEGORIES_SUCCESS',
+	CategoryActionType.FETCH_CATEGORIES_SUCCESS,
 	ShopDataCategory[]
 >
 export type FetchCategoriesFailAction = ActionWPayload<
-	'categories/FETCH_CATEGORIES_FAIL',
-	string
+	CategoryActionType.FETCH_CATEGORIES_FAIL,
+	Error | null
 >
-
-export type CategoryAction =
-	| FetchCategoriesStartAction
-	| FetchCategoriesSuccessAction
-	| FetchCategoriesFailAction
-
-export type CategoryActionType = ActionTypes<CategoryAction>

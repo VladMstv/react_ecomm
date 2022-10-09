@@ -1,13 +1,27 @@
-import { all, call, put, SagaReturnType, takeLatest } from 'redux-saga/effects'
 import {
+	all,
+	call,
+	put,
+	SagaReturnType,
+	takeLatest,
+	takeLeading,
+} from 'redux-saga/effects'
+import {
+	createUserWithEmailPassword,
 	getAppUserFromUserAuth,
 	getCurrentUserPromise,
 	signInWithEmailNPassword,
-	signInWithGooglePopup
+	signInWithGooglePopup,
+	signOut,
 } from 'utils/firebase/firebase.util'
 import { signInFailed } from '.'
-import { signInSuccess } from './user.actions'
-import { CheckUser, EmailSignInStart, GoogleSignInStart } from './user.types'
+import { signInSuccess, signOutSuccess } from './user.actions'
+import {
+	CheckUserSession,
+	EmailSignInStart,
+	GoogleSignInStart,
+	SignUpStart,
+} from './user.types'
 
 function* isUserAuthenticated() {
 	try {
@@ -62,8 +76,33 @@ function* signInWithEmail(action: EmailSignInStart) {
 	}
 }
 
+function* signOutAttempt() {
+	yield call(signOut)
+	yield put(signOutSuccess())
+}
+
+function* signUp(action: SignUpStart) {
+	try {
+		const user: SagaReturnType<typeof createUserWithEmailPassword> = yield call(
+			createUserWithEmailPassword,
+			{
+				email: action.payload.email,
+				password: action.payload.password,
+			},
+			action.payload.userDetails
+		)
+		put(signInSuccess(user))
+	} catch (error: any) {
+		if (error.code === 'auth/email-already-in-use') {
+			signInFailed('Email is already taken')
+		} else {
+			put(signInFailed('Something went wrong'))
+		}
+	}
+}
+
 export function* onUserCheckSession() {
-	yield takeLatest<CheckUser>('CHECK_USER_SESSION', isUserAuthenticated)
+	yield takeLatest<CheckUserSession>('CHECK_USER_SESSION', isUserAuthenticated)
 }
 
 export function* onGoogleSignInStart() {
@@ -73,10 +112,20 @@ export function* onEmailSignInStart() {
 	yield takeLatest<EmailSignInStart>('EMAIL_SIGN_IN_START', signInWithEmail)
 }
 
+export function* onSignOutStart() {
+	yield takeLeading('SIGN_OUT_START', signOutAttempt)
+}
+
+export function* onSignUpStart() {
+	yield takeLatest('SIGN_UP_START', signUp)
+}
+
 export function* userSagas() {
 	yield all([
 		call(onUserCheckSession),
 		call(onGoogleSignInStart),
 		call(onEmailSignInStart),
+		call(onSignOutStart),
+		call(onSignUpStart),
 	])
 }

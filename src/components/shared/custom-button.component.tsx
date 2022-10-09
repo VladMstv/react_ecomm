@@ -25,7 +25,7 @@ function CustomButton(props: CustomButtonProps) {
 				CustomButtonVariantClasses[buttonVariant!]
 			}`}
 		>
-			{isLoading ? <LoadingSpinner className='mr-3' size='sm' relative /> : null}
+			{isLoading ? <LoadingSpinner className='mr-3' size='sm' /> : null}
 
 			{children}
 		</button>

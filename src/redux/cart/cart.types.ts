@@ -2,21 +2,25 @@ import Product from 'models/product.model'
 import { Action } from 'redux'
 import { ActionWPayload } from 'redux/utils/payload-action'
 
-export type ToggleCartHiddenAction = Action<'TOGGLE_CART_HIDDEN'>
-export type AddProductAction = ActionWPayload<'ADD_ITEM', Product>
-export type IncreaseQuantityAction = ActionWPayload<
-	'INCREASE_QUANTITY',
-	Product['id']
->
-export type RemoveProductAction = ActionWPayload<'REMOVE_PRODUCT', Product>
-export type DecreaseQuantityAction = ActionWPayload<
-	'DECREASE_QUANTITY',
-	Product['id']
->
+export enum CartActionType {
+	TOGGLE_CART_HIDDEN = 'cart/TOGGLE_CART_HIDDEN',
+	ADD_ITEM = 'cart/ADD_ITEM',
+	REMOVE_PRODUCT = 'cart/REMOVE_PRODUCT',
+	INCREASE_QUANTITY = 'cart/INCREASE_QUANTITY',
+	DECREASE_QUANTITY = 'cart/DECREASE_QUANTITY',
+}
 
-export type CartAction =
-	| ToggleCartHiddenAction
-	| AddProductAction
-	| IncreaseQuantityAction
-	| RemoveProductAction
-	| DecreaseQuantityAction
+export type ToggleCartHiddenAction = Action<CartActionType.TOGGLE_CART_HIDDEN>
+export type AddItemAction = ActionWPayload<CartActionType.ADD_ITEM, Product>
+export type IncreaseQuantityAction = ActionWPayload<
+	CartActionType.INCREASE_QUANTITY,
+	Product['id']
+>
+export type RemoveProductAction = ActionWPayload<
+	CartActionType.REMOVE_PRODUCT,
+	Product
+>
+export type DecreaseQuantityAction = ActionWPayload<
+	CartActionType.DECREASE_QUANTITY,
+	Product['id']
+>

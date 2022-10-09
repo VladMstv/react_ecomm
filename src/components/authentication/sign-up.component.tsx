@@ -1,5 +1,6 @@
-import React, { FormEvent } from 'react'
-import { createUserWithEmailPassword } from 'utils/firebase/firebase.util'
+import React, { FormEvent, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { signUpStart } from 'redux/user'
 import CustomButton from '../shared/custom-button.component'
 import FormInput from '../shared/form-input.component'
 
@@ -17,16 +18,13 @@ const initialState: SignUpState = {
 	confirmPassword: '',
 }
 
-export default class SignUp extends React.Component<unknown, SignUpState> {
-	constructor(props = {}) {
-		super(props)
+export default function SignUp() {
+	const [formState, setFormState] = useState(initialState)
+	const dispatch = useDispatch()
 
-		this.state = initialState
-	}
-
-	handleSubmit = async (event: FormEvent) => {
+	const handleSubmit = async (event: FormEvent) => {
 		event.preventDefault()
-		const { displayName, password, confirmPassword, email } = this.state
+		const { displayName, password, confirmPassword, email } = formState
 
 		// if password don't match - show error
 		if (password !== confirmPassword) {
@@ -34,68 +32,66 @@ export default class SignUp extends React.Component<unknown, SignUpState> {
 			return
 		}
 
-		// if creating user is successful - reset the form
-		if (await createUserWithEmailPassword({ email, password }, { displayName })) {
-			this.setState(initialState)
-		}
+		dispatch(signUpStart(email, password, { displayName }))
 	}
 
-	handleChange = (event: FormEvent<HTMLInputElement>) => {
+	const handleChange = (event: FormEvent<HTMLInputElement>) => {
 		const { name, value } = event.target as HTMLInputElement
 
-		this.setState({ [name]: value } as Pick<SignUpState, keyof SignUpState>)
+		setFormState(oldState => ({
+			...oldState,
+			[name]: value,
+		}))
 	}
 
-	render(): React.ReactNode {
-		const { displayName, password, confirmPassword, email } = this.state
-		return (
-			<div className='sign-up max-w-100 w-full'>
-				<h2 className='font-semibold text-lg'>I don&apos;t have an account yet</h2>
-				<span>Sign up with email and password</span>
+	const { displayName, password, confirmPassword, email } = formState
+	return (
+		<div className='sign-up max-w-100 w-full'>
+			<h2 className='font-semibold text-lg'>I don&apos;t have an account yet</h2>
+			<span>Sign up with email and password</span>
 
-				<form className='sign-up-form' onSubmit={this.handleSubmit}>
-					<FormInput
-						type='text'
-						label='Display Name'
-						name='displayName'
-						value={displayName}
-						id='display-name'
-						handleChange={this.handleChange}
-						required
-					/>
-					<FormInput
-						type='text'
-						name='email'
-						label='Email'
-						value={email}
-						id='email'
-						handleChange={this.handleChange}
-						required
-					/>
-					<FormInput
-						type='password'
-						name='password'
-						label='Password'
-						value={password}
-						id='password'
-						handleChange={this.handleChange}
-						required
-					/>
-					<FormInput
-						type='password'
-						name='confirmPassword'
-						label='Confirm password'
-						value={confirmPassword}
-						id='confirm-password'
-						handleChange={this.handleChange}
-						required
-					/>
+			<form className='sign-up-form' onSubmit={handleSubmit}>
+				<FormInput
+					type='text'
+					label='Display Name'
+					name='displayName'
+					value={displayName}
+					id='display-name'
+					handleChange={handleChange}
+					required
+				/>
+				<FormInput
+					type='text'
+					name='email'
+					label='Email'
+					value={email}
+					id='email'
+					handleChange={handleChange}
+					required
+				/>
+				<FormInput
+					type='password'
+					name='password'
+					label='Password'
+					value={password}
+					id='password'
+					handleChange={handleChange}
+					required
+				/>
+				<FormInput
+					type='password'
+					name='confirmPassword'
+					label='Confirm password'
+					value={confirmPassword}
+					id='confirm-password'
+					handleChange={handleChange}
+					required
+				/>
 
-					<CustomButton classes='mx-auto min-w-50' isSubmit>
-						SIGN UP
-					</CustomButton>
-				</form>
-			</div>
-		)
-	}
+				<CustomButton classes='mx-auto min-w-50' isSubmit>
+					SIGN UP
+				</CustomButton>
+			</form>
+		</div>
+	)
 }

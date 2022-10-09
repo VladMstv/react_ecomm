@@ -15,7 +15,7 @@ export default function SignIn() {
 
 	const loading = useSelector(selectUserLoading)
 
-	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		const { email, password } = formVals
 		try {
@@ -61,10 +61,11 @@ export default function SignIn() {
 				/>
 
 				<div className='flex w-full'>
-					<CustomButton isSubmit classes='flex-auto'>
+					<CustomButton isLoading={loading} isSubmit classes='flex-auto'>
 						SIGN IN
 					</CustomButton>
 					<CustomButton
+						isLoading={loading}
 						handleClick={handleSignInWithGoogle}
 						classes='flex-auto ml-3 bg-blue-500 border-blue-500 hover:border-black'
 					>

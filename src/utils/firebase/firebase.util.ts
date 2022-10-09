@@ -73,13 +73,17 @@ export const getUserDocAndSnapshotFromUserAuth = async (
 	return [userRef, snapshot]
 }
 
-export const getAppUserFromUserAuth = async (userAuth: User) => {
+export const getAppUserFromUserAuth = async (
+	userAuth: User
+): Promise<AppUser> => {
 	const [document, snapshot] = await getUserDocAndSnapshotFromUserAuth(userAuth)
 	return {
 		id: document.id,
 		...(snapshot.data() as Omit<AppUser, 'id'>),
 	} as AppUser
 }
+
+export type UserAdditionalDetails = Pick<AppUser, 'displayName'>
 
 export const createUserWithEmailPassword = async (
 	{
@@ -89,46 +93,42 @@ export const createUserWithEmailPassword = async (
 		email: string
 		password: string
 	},
-	userDetails?: Partial<AppUser>
-) => {
+	userDetails?: UserAdditionalDetails
+): Promise<AppUser> => {
 	let user: User
-	try {
-		user = (await createUserWithEmailAndPassword(auth, email, password)).user
-		if (userDetails) {
-			user = {
-				...user,
-				displayName: userDetails.displayName || '',
-			}
-		}
-		return await getAppUserFromUserAuth(user)
-	} catch (error: any) {
-		if (error.code === 'auth/email-already-in-use') {
-			alert('Such an email is already taken')
-		} else {
-			console.error('Error creating user', error)
+	user = (await createUserWithEmailAndPassword(auth, email, password)).user
+	if (userDetails) {
+		user = {
+			...user,
+			...userDetails,
 		}
 	}
-	return undefined
+	return getAppUserFromUserAuth(user)
+}
+
+type ObjectToAdd = {
+	title: string
 }
 
 export const addCollectionAndDocuments = async (
 	collectionKey: string,
-	objectsToAdd: any[],
-	idField: string
-) => {
+	objectsToAdd: ObjectToAdd[]
+): Promise<void> => {
 	const collectionRef = collection(firestore, collectionKey)
 
 	const batch = writeBatch(firestore)
 
 	objectsToAdd.forEach(obj => {
-		const docRef = doc(collectionRef, obj[idField].toLowerCase())
+		const docRef = doc(collectionRef, obj.title.toLowerCase())
 		batch.set(docRef, obj)
 	})
 
 	await batch.commit()
 }
 
-export const getCollectionsAndDocuments = async () => {
+export const getCollectionsAndDocuments = async (): Promise<
+	ShopDataCategory[]
+> => {
 	const collectionRef = collection(firestore, 'categories')
 
 	const q = query(collectionRef)
@@ -141,7 +141,9 @@ export const getCollectionsAndDocuments = async () => {
 	return categoryDocs
 }
 
-export const getCollectionDocuments = async (collectionKey: string) => {
+export const getCollectionDocuments = async (
+	collectionKey: string
+): Promise<Product[]> => {
 	const collectionRef = collection(firestore, 'categories', collectionKey)
 
 	const q = query(collectionRef)
@@ -153,7 +155,7 @@ export const getCollectionDocuments = async (collectionKey: string) => {
 	return items
 }
 
-export const getCurrentUserPromise = () =>
+export const getCurrentUserPromise = (): Promise<User | null> =>
 	new Promise<User | null>((resolve, reject) => {
 		const unsubscribe = onAuthStateChanged(
 			auth,

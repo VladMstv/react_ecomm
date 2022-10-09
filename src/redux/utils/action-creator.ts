@@ -1,16 +1,17 @@
 import { Action } from 'redux'
 import { ActionWPayload } from './payload-action'
 
-export type ActionType<T, P> = P extends undefined
-	? Action<T>
-	: ActionWPayload<T, P>
-
-export function createAction<T = string, P = any>(
+export function createAction<T extends string, P>(
 	type: T,
-	payload?: P
-): ActionType<T, P> {
+	payload: P
+): ActionWPayload<T, P>
+export function createAction<T extends string>(
+	type: T,
+	payload: void
+): Action<T>
+export function createAction<T extends string, P>(type: T, payload: P) {
 	return {
 		type,
 		payload,
-	} as ActionType<T, P>
+	}
 }

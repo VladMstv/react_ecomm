@@ -56,12 +56,10 @@ function CartDropdown(props: Props): JSX.Element {
 		}
 	}, [checkClickedInsideDropdown])
 
-	const goToCheckoutHandler = () => {
+	const goToCheckoutHandler = useCallback(() => {
 		navigate('checkout')
 		dispatch(toggleCartHidden())
-	}
-
-	console.log('render cart-dropdown')
+	}, [])
 
 	return (
 		<div

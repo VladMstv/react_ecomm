@@ -18,7 +18,7 @@ export function* fetchCategoriesAsync() {
 
 export function* onFetchCategories() {
 	yield takeLatest<CategoryActionType>(
-		'categories/FETCH_CATEGORIES_START',
+		CategoryActionType.FETCH_CATEGORIES_START,
 		fetchCategoriesAsync
 	)
 }

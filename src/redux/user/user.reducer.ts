@@ -1,6 +1,14 @@
 import AppUser from 'models/user.model'
-import { Reducer } from 'redux'
-import { UserActions } from '.'
+import { AnyAction, Reducer } from 'redux'
+import {
+	emailSignInStart,
+	googleSignInStart,
+	signInFailed,
+	signInSuccess,
+	signOutSuccess,
+	signUpFailed,
+	signUpStart,
+} from './user.actions'
 
 export interface UserState {
 	currentUser: AppUser | null
@@ -14,34 +22,38 @@ const INITIAL_STATE: UserState = {
 	error: null,
 }
 
-const userReducer: Reducer<UserState, UserActions> = (
+const userReducer: Reducer<UserState> = (
 	state = INITIAL_STATE,
-	action = {} as UserActions
+	action = {} as AnyAction
 ) => {
-	switch (action.type) {
-		case 'EMAIL_SIGN_IN_START':
-		case 'GOOGLE_SIGN_IN_START':
-			return {
-				...state,
-				isLoading: true,
-			} as UserState
-
-		case 'SIGN_IN_SUCCESS':
-			return {
-				...state,
-				isLoading: false,
-				currentUser: action.payload,
-			} as UserState
-
-		case 'SIGN_IN_FAILED':
-			return {
-				...state,
-				isLoading: false,
-				error: action.payload,
-			} as UserState
-		default:
-			return state as UserState
+	if (emailSignInStart.match(action) || googleSignInStart.match(action)) {
+		return {
+			...state,
+			isLoading: true,
+		} as UserState
 	}
+	if (signInSuccess.match(action)) {
+		return {
+			...state,
+			isLoading: false,
+			currentUser: action.payload,
+		} as UserState
+	}
+	if (signInFailed.match(action) || signUpFailed.match(action)) {
+		return {
+			...state,
+			isLoading: false,
+			error: action.payload,
+		} as UserState
+	}
+	if (signOutSuccess.match(action) || signUpStart.match(action)) {
+		return {
+			...state,
+			currentUser: null,
+		}
+	}
+
+	return state
 }
 
 export default userReducer

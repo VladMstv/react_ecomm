@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { checkUserSession } from 'redux/user'
 import { selectCurrentUser } from 'redux/user/user.selectors'
-import './styles.css'
 
 export default function App() {
 	const dispatch = useDispatch()
@@ -20,7 +19,7 @@ export default function App() {
 	}, [dispatch])
 
 	return (
-		<div>
+		<>
 			<Header />
 			<Routes>
 				<Route path='/' element={<HomePage />} />
@@ -31,6 +30,6 @@ export default function App() {
 					element={currentUser ? <Navigate to='/' replace /> : <Authentication />}
 				/>
 			</Routes>
-		</div>
+		</>
 	)
 }

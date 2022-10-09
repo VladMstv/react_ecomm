@@ -1,29 +1,35 @@
 import Product from 'models/product.model'
 import { createAction } from 'redux/utils/action-creator'
+import { withMatcher } from 'redux/utils/matchable'
 import {
-	AddProductAction,
+	AddItemAction,
+	CartActionType,
 	DecreaseQuantityAction,
 	IncreaseQuantityAction,
 	RemoveProductAction,
 	ToggleCartHiddenAction,
-} from '.'
+} from './cart.types'
 
-export function toggleCartHidden(): ToggleCartHiddenAction {
-	return createAction('TOGGLE_CART_HIDDEN')
-}
+export const toggleCartHidden = withMatcher(
+	(): ToggleCartHiddenAction => createAction(CartActionType.TOGGLE_CART_HIDDEN)
+)
 
-export function addProduct(product: Product): AddProductAction {
-	return createAction('ADD_ITEM', product)
-}
+export const addItem = withMatcher(
+	(product: Product): AddItemAction =>
+		createAction(CartActionType.ADD_ITEM, product)
+)
 
-export function increaseQuantity(id: number): IncreaseQuantityAction {
-	return createAction('INCREASE_QUANTITY', id)
-}
+export const increaseQuantity = withMatcher(
+	(id: number): IncreaseQuantityAction =>
+		createAction(CartActionType.INCREASE_QUANTITY, id)
+)
 
-export function removeProduct(product: Product): RemoveProductAction {
-	return createAction('REMOVE_PRODUCT', product)
-}
+export const removeProduct = withMatcher(
+	(product: Product): RemoveProductAction =>
+		createAction(CartActionType.REMOVE_PRODUCT, product)
+)
 
-export function decreaseQuantity(id: number): DecreaseQuantityAction {
-	return createAction('DECREASE_QUANTITY', id)
-}
+export const decreaseQuantity = withMatcher(
+	(id: number): DecreaseQuantityAction =>
+		createAction(CartActionType.DECREASE_QUANTITY, id)
+)

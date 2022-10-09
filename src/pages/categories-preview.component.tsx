@@ -11,14 +11,18 @@ function CategoriesPreview(): JSX.Element {
 	const collections = useSelector(selectCategoriesMap)
 	const isLoading = useSelector(selectCategoriesIsLoading)
 
-	return isLoading ? (
-		<LoadingSpinner />
-	) : (
-		<>
-			{Object.entries(collections).map(([title, items]) => (
-				<CategoryPreview key={title} title={title} items={items} />
-			))}
-		</>
+	return (
+		<div className='page'>
+			{isLoading ? (
+				<LoadingSpinner />
+			) : (
+				<>
+					{Object.entries(collections).map(([title, items]) => (
+						<CategoryPreview key={title} title={title} items={items} />
+					))}
+				</>
+			)}
+		</div>
 	)
 }
 

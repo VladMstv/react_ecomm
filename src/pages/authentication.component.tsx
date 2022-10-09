@@ -4,7 +4,7 @@ import React from 'react'
 
 function Authentication() {
 	return (
-		<div className='sign-in-up-page max-w-240 mx-auto flex justify-between'>
+		<div className='sign-in-up-page max-w-240 mx-auto flex justify-between flex-wrap gap-7'>
 			<SignIn />
 			<SignUp />
 		</div>

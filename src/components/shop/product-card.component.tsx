@@ -1,31 +1,20 @@
 import Product from 'models/product.model'
 import React from 'react'
-import { connect, MapDispatchToProps } from 'react-redux'
-import { addProduct } from 'redux/cart/cart.actions'
+import { useDispatch } from 'react-redux'
+import { addItem } from 'redux/cart/cart.actions'
 import CustomButton from '../shared/custom-button.component'
 
-interface CollectionItemOwnProps {
+interface Props {
 	product: Product
 }
 
-type DispatchProps = {
-	addCartItemFn: typeof addProduct
-}
-
-type Props = DispatchProps & CollectionItemOwnProps
-
-const mapDispatchToProps: MapDispatchToProps<
-	DispatchProps,
-	CollectionItemOwnProps
-> = dispatch => ({
-	addCartItemFn: item => dispatch(addProduct(item)),
-})
-
 function ProductCard(props: Props) {
-	const { product: data, addCartItemFn } = props
+	const { product: data } = props
+
+	const dispatch = useDispatch()
 
 	const handleClick = () => {
-		addCartItemFn(data)
+		dispatch(addItem(data))
 	}
 
 	const bgStyle = { backgroundImage: `url(${data.imageUrl})` }
@@ -51,4 +40,4 @@ function ProductCard(props: Props) {
 	)
 }
 
-export default connect(null, mapDispatchToProps)(ProductCard)
+export default ProductCard

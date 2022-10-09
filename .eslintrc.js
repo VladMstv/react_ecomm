@@ -53,7 +53,15 @@ module.exports = {
       "required": {
         "some": ["nesting", "id"]
       }
-    }]
+    }],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
+
+    "no-redeclare": "off",
+    "@typescript-eslint/no-redeclare": ["error"]
   },
   settings: {
     "import/resolver": {

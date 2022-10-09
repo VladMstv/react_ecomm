@@ -1,18 +1,15 @@
-import { HTMLElementValueType } from 'models/util/input-value-type'
-import React, { memo } from 'react'
+import React, { InputHTMLAttributes, memo } from 'react'
 
-interface FormInputProps {
+type FormInputProps = {
 	handleChange: React.ChangeEventHandler<HTMLInputElement>
 	label: string
-	id: string
-	type?: string
-	required?: boolean
-	value: HTMLElementValueType<HTMLInputElement>
-	name: string
-}
+} & Pick<
+	InputHTMLAttributes<HTMLInputElement>,
+	'value' | 'name' | 'required' | 'type' | 'id'
+>
 
 function FormInput(props: FormInputProps) {
-	const { handleChange, label, id, type, required, value, name } = props
+	const { handleChange, label, type, value, id, name, required } = props
 	return (
 		<div className='form-group relative my-5'>
 			<input
@@ -20,14 +17,14 @@ function FormInput(props: FormInputProps) {
                            border-0 border-b my-3 outline-0 ring-0 peer'
 				onChange={handleChange}
 				type={type || 'text'}
-				required={required}
-				name={name}
 				value={value}
 				id={id}
+				name={name}
+				required={required}
 			/>
 			{label ? (
 				<label
-					className={`form-label absolute  left-2 block peer-focus:-top-3 peer-focus:text-sm transition-all ${
+					className={`form-label absolute left-2 block peer-focus:-top-3 peer-focus:text-sm transition-all ${
 						value ? '-top-3 text-sm' : 'top-3'
 					} `}
 					htmlFor={id}

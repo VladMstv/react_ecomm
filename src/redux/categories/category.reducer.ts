@@ -1,11 +1,12 @@
 import ShopDataCategory from 'models/shop-data-category.model'
-import { Reducer } from 'redux'
-import { CategoryAction } from '.'
+import { AnyAction, Reducer } from 'redux'
+import { fetchCategoriesStart } from 'redux/categories'
+import { fetchCategoriesFail, fetchCategoriesSuccess } from './category.actions'
 
 export interface CategoriesState {
 	categories: ShopDataCategory[]
 	isLoading: boolean
-	error: string | null
+	error: Error | null
 }
 
 const initialState: CategoriesState = {
@@ -16,29 +17,29 @@ const initialState: CategoriesState = {
 
 const categoriesReducer: Reducer<CategoriesState> = (
 	state = initialState,
-	action: CategoryAction = {} as CategoryAction
+	action = {} as AnyAction
 ) => {
-	switch (action.type) {
-		case 'categories/FETCH_CATEGORIES_START':
-			return {
-				...state,
-				isLoading: true,
-			}
-		case 'categories/FETCH_CATEGORIES_FAIL':
-			return {
-				...state,
-				isLoading: false,
-				error: action.payload || null,
-			}
-		case 'categories/FETCH_CATEGORIES_SUCCESS':
-			return {
-				...state,
-				isLoading: false,
-				categories: action.payload || [],
-			}
-		default:
-			return state
+	if (fetchCategoriesStart.match(action)) {
+		return {
+			...state,
+			isLoading: true,
+		}
 	}
+	if (fetchCategoriesSuccess.match(action)) {
+		return {
+			...state,
+			isLoading: false,
+			categories: action.payload || [],
+		}
+	}
+	if (fetchCategoriesFail.match(action)) {
+		return {
+			...state,
+			isLoading: false,
+			error: action.payload || null,
+		}
+	}
+	return state
 }
 
 export default categoriesReducer

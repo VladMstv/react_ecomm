@@ -2,11 +2,15 @@ import styled, { css } from 'styled-components'
 import { LoadingSpinnerRaw } from './loading-spinner.component'
 
 export const SpinnerOverlay = styled.div`
-	height: 60vh;
-	width: 100%;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: absolute;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	background: rgba(255, 255, 255, 0.3);
 `
 
 export const SpinnerContainer = styled.div`
