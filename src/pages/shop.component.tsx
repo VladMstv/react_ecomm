@@ -13,7 +13,7 @@ function ShopPage() {
 		if (Object.keys(categories).length === 0) {
 			dispatch(fetchCategoriesStart())
 		}
-	}, [dispatch])
+	}, [categories])
 	return (
 		<Routes>
 			<Route index element={<CategoriesPreview />} />

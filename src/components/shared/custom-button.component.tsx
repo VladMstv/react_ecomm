@@ -14,16 +14,20 @@ type CustomButtonProps = PropsWithChildren<{
 }>
 
 function CustomButton(props: CustomButtonProps) {
-	const { isSubmit, children, classes, handleClick, buttonVariant, isLoading } =
-		props
+	const {
+		isSubmit,
+		children,
+		classes,
+		handleClick,
+		buttonVariant = 'default',
+		isLoading,
+	} = props
 	return (
 		<button
 			type={isSubmit ? 'submit' : 'button'}
 			onClick={handleClick}
 			disabled={isLoading}
-			className={`custom-button border-2 px-6 py-4 flex justify-center border-black ${classes} ${
-				CustomButtonVariantClasses[buttonVariant!]
-			}`}
+			className={`custom-button border-2 px-6 py-4 flex justify-center border-black ${classes} ${CustomButtonVariantClasses[buttonVariant]}`}
 		>
 			{isLoading ? <LoadingSpinner className='mr-3' size='sm' /> : null}
 

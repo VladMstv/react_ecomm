@@ -26,7 +26,7 @@ export type SignInSuccess = ActionWPayload<
 	UserActionType.SIGN_IN_SUCCESS,
 	AppUser | null
 >
-export type SignInFailed = ActionWPayload<UserActionType.SIGN_IN_FAILED, any>
+export type SignInFailed = ActionWPayload<UserActionType.SIGN_IN_FAILED, object>
 
 export type SignOutStart = Action<UserActionType.SIGN_OUT_START>
 export type SignOutSuccess = Action<UserActionType.SIGN_OUT_SUCCESS>
@@ -35,4 +35,4 @@ export type SignUpStart = ActionWPayload<
 	UserActionType.SIGN_UP_START,
 	{ email: string; password: string; userDetails?: UserAdditionalDetails }
 >
-export type SignUpFailed = ActionWPayload<UserActionType.SIGN_UP_FAILED, any>
+export type SignUpFailed = ActionWPayload<UserActionType.SIGN_UP_FAILED, object>

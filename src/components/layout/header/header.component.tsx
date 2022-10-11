@@ -4,11 +4,16 @@ import { Link } from 'react-router-dom'
 import { selectCartOpened } from 'redux/cart/cart.selectors'
 import { signOutStart } from 'redux/user'
 import { selectCurrentUser } from 'redux/user/user.selectors'
-import { ReactComponent as Logo } from '../../assets/crown.svg'
-import CartDropdown from '../cart/cart-dropdown.component'
-import CartIcon from '../cart/cart-icon.component'
+import { ReactComponent as Logo } from 'assets/crown.svg'
+import CartDropdown from '../../cart/cart-dropdown.component'
+import CartIcon from '../../cart/cart-icon.component'
+import Header from './header.styles'
 
-function Header(): JSX.Element {
+type HeaderProps = {
+	isSticky: boolean
+}
+
+function HeaderComponent({ isSticky = true }: HeaderProps): JSX.Element {
 	const dropdownShown = useSelector(selectCartOpened)
 
 	const currentUser = useSelector(selectCurrentUser)
@@ -16,8 +21,9 @@ function Header(): JSX.Element {
 	const dispatch = useDispatch()
 
 	const optionLinksClassess = 'font-semibold hover:opacity-70'
+
 	return (
-		<div className='header pt-10 mb-5 flex flex-wrap justify-between items-center relative'>
+		<Header isSticky={isSticky}>
 			<Link className='logo-container h-full pb-5 pt-5 flex items-center' to='/'>
 				<Logo className='logo mr-3' />
 				<span className='text-3xl font-semibold'>REACTOZO SHOP</span>
@@ -43,8 +49,8 @@ function Header(): JSX.Element {
 			</div>
 
 			{dropdownShown && <CartDropdown />}
-		</div>
+		</Header>
 	)
 }
 
-export default Header
+export default HeaderComponent

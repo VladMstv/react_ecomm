@@ -1,11 +1,11 @@
 import { CartItem } from 'models/cart-item.model'
-import React from 'react'
-import { useDispatch } from 'react-redux'
 import {
 	decreaseQuantity,
 	increaseQuantity,
-	removeProduct,
+	removeProduct
 } from 'redux/cart/cart.actions'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 
 interface CheckoutItemProps {
 	cartItem: CartItem
