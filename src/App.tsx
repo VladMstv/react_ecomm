@@ -1,18 +1,17 @@
-import 'App.css'
-import Header from 'components/layout/header/header.component'
-import { HeaderInitialPaddingTopRem } from 'components/layout/header/header.styles'
-import Authentication from 'pages/authentication.component'
-import Checkout from 'pages/checkout.component'
-import HomePage from 'pages/homepage.component'
-import ShopPage from 'pages/shop.component'
+import { checkUserSession } from 'features/authentication/state/user'
+import { selectCurrentUser } from 'features/authentication/state/user/user.selectors'
+import Header, {
+	HeaderInitialPaddingTopRem
+} from 'layout/header/header.component'
+import Authentication from 'pages/authentication.page'
+import Checkout from 'pages/checkout.page'
+import HomePage from 'pages/homepage.page'
+import ShopPage from 'pages/shop.page'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { checkUserSession } from 'redux/user'
-import { selectCurrentUser } from 'redux/user/user.selectors'
+import useIsScrollTopMoreThanHeaderPadding from 'shared/hooks/use-scroll-top-more-than-header-padding.hook'
 import styled from 'styled-components'
-import useIsScrollTopMoreThanHeaderPadding from 'utils/hooks/use-scroll-top-more-than-header-padding.hook'
-
 
 const AppWrapper = styled.div<{ topPadding: string }>`
 	${({ topPadding }) => ({
